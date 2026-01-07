@@ -1,4 +1,4 @@
-package com.batch.plan;
+package com.subscription.plan;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
