@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface SubscriptionStatus extends JpaRepository<Subscription, Long> {
+public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
     Optional<List<Subscription>> findByMemberId(Long memberId);
-    Optional<Subscription> findByStatus(SubscriptionStatus status);
+    Optional<Subscription> findByStatus(SubscriptionRepository status);
 }
