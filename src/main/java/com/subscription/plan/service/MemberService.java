@@ -1,6 +1,7 @@
 package com.subscription.plan.service;
 
 import com.subscription.plan.domain.Member;
+import com.subscription.plan.dto.MemberChangeNameRequestDto;
 import com.subscription.plan.dto.MemberSignUpRequestDto;
 import com.subscription.plan.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -38,11 +39,11 @@ public class MemberService {
     }
 
     @Transactional
-    public Member changeUserName(String userName, String newUserName) {
-        Member member = memberRepository.findByUserName(userName)
+    public Member changeUserName(MemberChangeNameRequestDto memberChangeNameRequestDto) {
+        Member member = memberRepository.findByUserName(memberChangeNameRequestDto.getUserName())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 
-        member.changeUserName(newUserName);
+        member.changeUserName(memberChangeNameRequestDto.getNewName());
 
         return member;
     }
