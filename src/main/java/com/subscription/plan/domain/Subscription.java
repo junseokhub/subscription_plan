@@ -3,14 +3,15 @@ package com.subscription.plan.domain;
 import com.subscription.plan.common.PlanType;
 import com.subscription.plan.common.SubscriptionStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 public class Subscription {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
