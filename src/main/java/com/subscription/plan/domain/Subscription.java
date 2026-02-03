@@ -1,10 +1,8 @@
 package com.subscription.plan.domain;
 
-import com.subscription.plan.common.PlanType;
 import com.subscription.plan.common.SubscriptionStatus;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,30 +18,53 @@ public class Subscription {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "plan_id")
+    private Plan plan;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pending_plan_id")
+    private Plan pendingPlan;
+
     private int cycle;
     private boolean autoRenewal;
-
-    @Enumerated(EnumType.STRING)
-    private PlanType planType;
-
-    private Long price;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private LocalDateTime cancelDate;
+    private LocalDateTime changeEffectiveDate;
 
     @Enumerated(EnumType.STRING)
     private SubscriptionStatus status;
 
-    @Enumerated(EnumType.STRING)
-    private PlanType pendingPlanType;
-    private LocalDateTime changeEffectiveDate;
+    public void renew() {
+        if (this.status != SubscriptionStatus.ACTIVE || !this.autoRenewal) return;
 
-    public void changePlan(PlanType newPlan, Long newPrice) {
-        this.pendingPlanType = newPlan;
-        this.price = newPrice;
+        if (this.pendingPlan != null && LocalDateTime.now().isAfter(changeEffectiveDate)) {
+            this.plan = this.pendingPlan;
+            this.pendingPlan = null;
+            this.changeEffectiveDate = null;
+        }
+
+        this.cycle += 1;
+        this.startDate = this.endDate;
+        this.endDate = this.startDate.plusMonths(this.plan.getDurationMonths());
     }
 
-    public boolean isRenewal() {
-        return this.cycle > 1;
+    public void reservePlanChange(Plan nextPlan) {
+        if (this.status != SubscriptionStatus.ACTIVE) {
+            throw new IllegalStateException("활성화된 구독만 플랜 변경이 가능합니다.");
+        }
+
+        if (this.plan.getId().equals(nextPlan.getId())) {
+            throw new IllegalArgumentException("현재와 동일한 플랜으로 변경 예약할 수 없습니다.");
+        }
+
+        this.pendingPlan = nextPlan;
+        this.changeEffectiveDate = this.endDate;
+    }
+
+    public void cancelPlanChange() {
+        this.pendingPlan = null;
+        this.changeEffectiveDate = null;
     }
 }
