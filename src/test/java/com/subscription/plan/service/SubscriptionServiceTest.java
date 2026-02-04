@@ -29,7 +29,7 @@ class SubscriptionServiceTest {
     private SubscriptionRepository subscriptionRepository;
 
     @InjectMocks
-    private SubscriptionService subscriptionService;
+    private SubscriptionServiceImpl subscriptionServiceImpl;
 
     // 테스트용 상수 설정 (Magic Number/String 방지)
     private static final Long TEST_MEMBER_ID = 1L;
@@ -41,7 +41,7 @@ class SubscriptionServiceTest {
         given(subscriptionRepository.findByMemberId(TEST_MEMBER_ID))
                 .willReturn(List.of(activeSub));
 
-        List<SubscriptionResponseDto> result = subscriptionService.getSubscriptionsByMemberId(TEST_MEMBER_ID);
+        List<SubscriptionResponseDto> result = subscriptionServiceImpl.getSubscriptionsByMemberId(TEST_MEMBER_ID);
 
         assertThat(result).hasSize(1);
 
@@ -59,7 +59,7 @@ class SubscriptionServiceTest {
         given(subscriptionRepository.findByStatus(SubscriptionStatus.ACTIVE))
                 .willReturn(List.of(activeSub));
 
-        List<SubscriptionResponseDto> result = subscriptionService.getActiveSubscriptions();
+        List<SubscriptionResponseDto> result = subscriptionServiceImpl.getActiveSubscriptions();
 
         assertThat(result).hasSize(1);
 
