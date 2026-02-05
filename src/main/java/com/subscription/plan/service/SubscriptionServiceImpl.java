@@ -55,9 +55,6 @@ public class SubscriptionServiceImpl implements SubscriptionService{
                 .plan(plan)
                 .cycle(1)
                 .autoRenewal(true)
-                .status(SubscriptionStatus.ACTIVE)
-                .startDate(LocalDateTime.now())
-                .endDate(LocalDateTime.now().plusMonths(plan.getDurationMonths()))
                 .build();
 
         return SubscriptionResponseDto.from(subscriptionRepository.save(subscription));

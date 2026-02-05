@@ -23,7 +23,6 @@ public class Plan {
     public Plan(PlanType planType, int durationMonths) {
         this.planType = planType;
         this.durationMonths = durationMonths;
-
         this.discountRate = switch (durationMonths) {
             case 6 -> 10;
             case 12 -> 20;

@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
 public class Subscription {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,6 +34,17 @@ public class Subscription {
 
     @Enumerated(EnumType.STRING)
     private SubscriptionStatus status;
+
+    @Builder
+    public Subscription(Member member, Plan plan, boolean autoRenewal, int cycle) {
+        this.member = member;
+        this.plan = plan;
+        this.cycle = cycle;
+        this.autoRenewal = autoRenewal;
+        this.startDate = LocalDateTime.now();
+        this.endDate = this.startDate.plusMonths(plan.getDurationMonths());
+        this.status = SubscriptionStatus.ACTIVE;
+    }
 
     public void renew() {
         if (this.status != SubscriptionStatus.ACTIVE || !this.autoRenewal) return;

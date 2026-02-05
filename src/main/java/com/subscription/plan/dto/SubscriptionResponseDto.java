@@ -1,5 +1,6 @@
 package com.subscription.plan.dto;
 
+import com.subscription.plan.common.PlanType;
 import com.subscription.plan.common.SubscriptionStatus;
 import com.subscription.plan.domain.Subscription;
 
@@ -12,7 +13,8 @@ public record SubscriptionResponseDto(
         boolean autoRenewal,
         SubscriptionStatus status,
         LocalDateTime startDate,
-        LocalDateTime endDate
+        LocalDateTime endDate,
+        PlanType planType
 ) {
     public static SubscriptionResponseDto from(Subscription s) {
         return new SubscriptionResponseDto(
@@ -22,7 +24,8 @@ public record SubscriptionResponseDto(
                 s.isAutoRenewal(),
                 s.getStatus(),
                 s.getStartDate(),
-                s.getEndDate()
+                s.getEndDate(),
+                s.getPlan().getPlanType()
         );
     }
 }
