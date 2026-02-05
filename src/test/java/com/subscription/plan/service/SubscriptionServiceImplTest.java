@@ -81,12 +81,12 @@ class SubscriptionServiceImplTest {
         given(memberService.findMember("userA")).willReturn(memberDto);
         given(subscriptionRepository.save(any(Subscription.class))).willAnswer(inv -> {
             Subscription sub = inv.getArgument(0);
-            ReflectionTestUtils.setField(sub, "id", 100L);
+            ReflectionTestUtils.setField(sub, "id", 1L);
+
             return sub;
         });
-
         SubscriptionResponseDto response = subscriptionService.createSubscription(request);
-
+        log.info("response: {}", response);
         assertThat(response).isNotNull();
 
         Plan appliedPlan = planStorage.get(targetPlanId);
@@ -98,7 +98,7 @@ class SubscriptionServiceImplTest {
     @DisplayName("구독 플랜 예약 변경: 1번 플랜에서 6번 플랜으로 정상 변경 예약")
     void updateSubscriptionReservation_Success() {
         Long memberId = 1L;
-        Long subId = 100L;
+        Long subId = 1L;
         Long nextPlanId = 6L;
 
         Member member = Member.builder().build();

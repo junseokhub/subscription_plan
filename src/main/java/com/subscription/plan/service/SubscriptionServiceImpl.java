@@ -27,12 +27,14 @@ public class SubscriptionServiceImpl implements SubscriptionService{
     private final MemberService memberService;
     private final PlanService planService;
 
+    @Override
     public List<SubscriptionResponseDto> getSubscriptionsByMemberId(Long memberId) {
         return subscriptionRepository.findByMemberId(memberId).stream()
                 .map(SubscriptionResponseDto::from)
                 .toList();
     }
 
+    @Override
     public List<SubscriptionResponseDto> getActiveSubscriptions() {
         return subscriptionRepository.findByStatus(SubscriptionStatus.ACTIVE).stream()
                 .map(SubscriptionResponseDto::from)
@@ -75,6 +77,7 @@ public class SubscriptionServiceImpl implements SubscriptionService{
         subscription.reservePlanChange(nextPlan);
     }
 
+    @Override
     @Transactional
     public void cancelSubscriptionReservation(Long subscriptionId) {
         Subscription subscription = subscriptionRepository.findById(subscriptionId)
