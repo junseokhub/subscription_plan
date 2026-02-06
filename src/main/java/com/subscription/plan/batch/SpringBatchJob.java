@@ -16,8 +16,10 @@ import org.springframework.context.annotation.Configuration;
 public class SpringBatchJob {
 
     private final JobRepository jobRepository;
+//    private final JobBuilderFactory jobBuilderFactory;
     private final StatisticsListener listener;
     private final StatisticsStep statisticsStep;
+
 
     @Bean
     public Job statisticsJob() {

@@ -19,6 +19,7 @@ public class SpringScheduler {
 
     private final JobOperator jobOperator;
     private final Job statisticsJob;
+//    private final JobLauncher jobLauncher;
 
     @Scheduled(cron = "*/50 * * * * ?")
     public void runStatisticsJob() {
@@ -29,6 +30,7 @@ public class SpringScheduler {
                     .addLong("runTime", System.currentTimeMillis())
                     .toJobParameters();
             JobExecution jobExecution = jobOperator.start(statisticsJob, jobParameters);
+//            JobExecution jobExecution = jobLauncher.run(statisticsJob, jobParameters);
             log.info("Batch executed, status: {}", jobExecution.getStatus());
 
         } catch (Exception e) {

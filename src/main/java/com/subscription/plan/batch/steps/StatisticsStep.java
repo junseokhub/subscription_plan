@@ -16,6 +16,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class StatisticsStep {
 
     private final JobRepository jobRepository;
+//    private final StepBuilderFactory stepBuilderFactory;
     private final PlatformTransactionManager transactionManager;
 
     @Bean
@@ -25,12 +26,14 @@ public class StatisticsStep {
                     log.info(">>>>> [Step 1] 통계 데이터 초기화 시작");
                     return RepeatStatus.FINISHED;
                 }, transactionManager)
+//                .transactionManager(transactionManager)
                 .build();
     }
 
     @Bean
     public Step baseStatisticsStep() {
         return new StepBuilder("baseStatisticsStep", jobRepository)
+//                .<Object, Object>chunk(10)
                 .chunk(10)
                 .transactionManager(transactionManager)
                 .reader(() -> {

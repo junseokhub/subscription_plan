@@ -20,6 +20,7 @@ public class StatisticsListener implements JobExecutionListener {
     @Override
     public void afterJob(@NonNull JobExecution jobExecution) {
         long duration = Duration.between(jobExecution.getStartTime(), jobExecution.getEndTime()).toMillis();
+//        long duration = jobExecution.getEndTime().getTime() - jobExecution.getStartTime().getTime();
         log.info("### 배치 Job 종료: {} (상태: {}, 소요시간: {}ms)",
                 jobExecution.getJobInstance().getJobName(),
                 jobExecution.getStatus(),
