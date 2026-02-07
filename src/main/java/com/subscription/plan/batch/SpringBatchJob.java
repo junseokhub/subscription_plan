@@ -1,6 +1,6 @@
 package com.subscription.plan.batch;
 
-import com.subscription.plan.batch.listener.StatisticsListener;
+import com.subscription.plan.batch.steps.AutoRenewalStep;
 import com.subscription.plan.batch.steps.StatisticsStep;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +17,9 @@ public class SpringBatchJob {
 
     private final JobRepository jobRepository;
 //    private final JobBuilderFactory jobBuilderFactory;
-    private final StatisticsListener listener;
+    private final SpringBatchListener listener;
     private final StatisticsStep statisticsStep;
+    private final AutoRenewalStep autoRenewalStep;
 
 
     @Bean
@@ -27,6 +28,14 @@ public class SpringBatchJob {
                 .listener(listener)
                 .start(statisticsStep.cleanupStep())
                 .next(statisticsStep.baseStatisticsStep())
+                .build();
+    }
+
+    @Bean
+    public Job autoRenewalJob() {
+        return new JobBuilder("autoRenewalJob", jobRepository)
+                .listener(listener)
+                .start(autoRenewalStep.autoRenewalStep())
                 .build();
     }
 }

@@ -13,10 +13,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -86,21 +84,21 @@ public class SubscriptionServiceImpl implements SubscriptionService{
         subscription.cancelPlanChange();
     }
 
-    @Scheduled(cron = "0 0 0 * * *")
-    @Transactional
-    public void processAutoRenewal() {
-        LocalDateTime now = LocalDateTime.now();
-        List<Subscription> targets = subscriptionRepository
-                .findAllByStatusAndAutoRenewalTrueAndEndDateBefore(SubscriptionStatus.ACTIVE, now);
-
-        for (Subscription sub : targets) {
-            try {
-                sub.renew();
-                log.info("구독 갱신 완료: 유저={}, 적용된 플랜={}",
-                        sub.getMember().getUserName(), sub.getPlan().getPlanType());
-            } catch (Exception e) {
-                log.error("구독 갱신 실패: 구독 ID={}", sub.getId(), e);
-            }
-        }
-    }
+//    @Scheduled(cron = "0 0 0 * * *")
+//    @Transactional
+//    public void processAutoRenewal() {
+//        LocalDateTime now = LocalDateTime.now();
+//        List<Subscription> targets = subscriptionRepository
+//                .findAllByStatusAndAutoRenewalTrueAndEndDateBefore(SubscriptionStatus.ACTIVE, now);
+//
+//        for (Subscription sub : targets) {
+//            try {
+//                sub.renew();
+//                log.info("구독 갱신 완료: 유저={}, 적용된 플랜={}",
+//                        sub.getMember().getUserName(), sub.getPlan().getPlanType());
+//            } catch (Exception e) {
+//                log.error("구독 갱신 실패: 구독 ID={}", sub.getId(), e);
+//            }
+//        }
+//    }
 }

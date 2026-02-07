@@ -1,4 +1,4 @@
-package com.subscription.plan.batch.listener;
+package com.subscription.plan.batch;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import java.time.Duration;
 
 @Component
 @Slf4j
-public class StatisticsListener implements JobExecutionListener {
+public class SpringBatchListener implements JobExecutionListener {
     @Override
     public void beforeJob(@NonNull JobExecution jobExecution) {
         log.info("### 배치 Job 시작: {}", jobExecution.getJobInstance().getJobName());

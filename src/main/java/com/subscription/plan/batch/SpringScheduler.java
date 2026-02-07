@@ -19,6 +19,7 @@ public class SpringScheduler {
 
     private final JobOperator jobOperator;
     private final Job statisticsJob;
+    private final Job autoRenewalJob;
 //    private final JobLauncher jobLauncher;
 
     @Scheduled(cron = "*/50 * * * * ?")
@@ -33,6 +34,22 @@ public class SpringScheduler {
 //            JobExecution jobExecution = jobLauncher.run(statisticsJob, jobParameters);
             log.info("Batch executed, status: {}", jobExecution.getStatus());
 
+        } catch (Exception e) {
+            log.error("❌ 통계 배치 실행 실패", e);
+        }
+    }
+
+    @Scheduled(cron = "0 0 0 * * *")
+    public void runAutoRenewalJob() {
+        try {
+            log.info("자동 갱신");
+
+            JobParameters jobParameters = new JobParametersBuilder()
+                    .addLong("runTime", System.currentTimeMillis())
+                    .toJobParameters();
+            JobExecution jobExecution = jobOperator.start(autoRenewalJob, jobParameters);
+
+            log.info("Batch executed, status: {}", jobExecution.getStatus());
         } catch (Exception e) {
             log.error("❌ 통계 배치 실행 실패", e);
         }
