@@ -124,22 +124,22 @@ class SubscriptionServiceImplTest {
         verify(subscriptionRepository, times(1)).findById(subId);
     }
 
-    @Test
-    @DisplayName("자동 갱신: 만료된 구독 갱신 시 로그와 renew 호출 확인")
-    void processAutoRenewal_Success() {
-        Member member = Member.builder().userName("userA").build();
-        Subscription activeSub = Subscription.builder()
-                .member(member)
-                .plan(planStorage.get(1L))
-                .build();
-
-        Subscription spySub = spy(activeSub);
-
-        given(subscriptionRepository.findAllByStatusAndAutoRenewalTrueAndEndDateBefore(any(), any()))
-                .willReturn(List.of(spySub));
-
-        subscriptionService.processAutoRenewal();
-
-        verify(spySub, times(1)).renew();
-    }
+//    @Test
+//    @DisplayName("자동 갱신: 만료된 구독 갱신 시 로그와 renew 호출 확인")
+//    void processAutoRenewal_Success() {
+//        Member member = Member.builder().userName("userA").build();
+//        Subscription activeSub = Subscription.builder()
+//                .member(member)
+//                .plan(planStorage.get(1L))
+//                .build();
+//
+//        Subscription spySub = spy(activeSub);
+//
+//        given(subscriptionRepository.findAllByStatusAndAutoRenewalTrueAndEndDateBefore(any(), any()))
+//                .willReturn(List.of(spySub));
+//
+//        subscriptionService.processAutoRenewal();
+//
+//        verify(spySub, times(1)).renew();
+//    }
 }

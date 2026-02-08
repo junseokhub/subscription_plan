@@ -39,7 +39,8 @@ public class SpringScheduler {
         }
     }
 
-    @Scheduled(cron = "0 0 0 * * *")
+//    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "*/50 * * * * ?")
     public void runAutoRenewalJob() {
         try {
             log.info("자동 갱신");

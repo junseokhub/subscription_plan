@@ -35,7 +35,7 @@ public class SpringBatchJob {
     public Job autoRenewalJob() {
         return new JobBuilder("autoRenewalJob", jobRepository)
                 .listener(listener)
-                .start(autoRenewalStep.autoRenewalStep())
+                .start(autoRenewalStep.autoRenewalStepInstance())
                 .build();
     }
 }

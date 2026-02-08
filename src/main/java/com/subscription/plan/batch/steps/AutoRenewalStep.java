@@ -26,7 +26,7 @@ public class AutoRenewalStep {
 
 
     @Bean
-    public Step autoRenewalStep() {
+    public Step autoRenewalStepInstance() {
         return new StepBuilder("autoRenewalStep", jobRepository)
                 .<Subscription, Subscription>chunk(50)
                 .transactionManager(transactionManager)
