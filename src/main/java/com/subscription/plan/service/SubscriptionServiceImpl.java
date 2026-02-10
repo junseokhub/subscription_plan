@@ -13,6 +13,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class SubscriptionServiceImpl implements SubscriptionService{
     private final SubscriptionRepository subscriptionRepository;
     private final MemberService memberService;
     private final PlanService planService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public List<SubscriptionResponseDto> getSubscriptionsByMemberId(Long memberId) {
@@ -46,8 +48,8 @@ public class SubscriptionServiceImpl implements SubscriptionService{
         Plan plan = planService.getPlanById(dto.getPlanId());
 
         Member member = Member.builder()
-                .id(memberDto.id())
                 .userName(memberDto.userName())
+                .password(bCryptPasswordEncoder.encode(dto.getPassword()))
                 .build();
 
         Subscription subscription = Subscription.builder()
@@ -83,7 +85,6 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 
         subscription.cancelPlanChange();
     }
-
 //    @Scheduled(cron = "0 0 0 * * *")
 //    @Transactional
 //    public void processAutoRenewal() {

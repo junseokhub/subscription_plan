@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SubscriptionRequestDto {
     private String userName;
+    private String password;
     private Long planId;
 }
