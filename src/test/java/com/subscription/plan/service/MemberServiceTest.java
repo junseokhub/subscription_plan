@@ -43,7 +43,7 @@ class MemberServiceTest {
     @Test
     @DisplayName("Success Sign Up")
     void signUp_success() {
-        MemberSignUpRequestDto dto = new MemberSignUpRequestDto("testUser");
+        MemberSignUpRequestDto dto = new MemberSignUpRequestDto("testUser", "asdf123");
         given(memberRepository.findByUserName("testUser")).willReturn(Optional.empty());
         given(memberRepository.save(any(Member.class))).willAnswer(invocation -> invocation.getArgument(0));
 
@@ -58,7 +58,7 @@ class MemberServiceTest {
         Member member = Member.builder().userName("testUser").build();
         given(memberRepository.findByUserName("testUser")).willReturn(Optional.of(member));
 
-        MemberSignUpRequestDto dto = new MemberSignUpRequestDto("testUser");
+        MemberSignUpRequestDto dto = new MemberSignUpRequestDto("testUser", "adsf123");
 
         assertThatThrownBy(() -> memberService.saveMember(dto))
                 .isInstanceOf(IllegalStateException.class)

@@ -17,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.HashMap;
@@ -40,6 +41,8 @@ class SubscriptionServiceImplTest {
     private MemberService memberService;
     @Mock
     private PlanService planService;
+    @Mock
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @InjectMocks
     private SubscriptionServiceImpl subscriptionService;
@@ -69,13 +72,14 @@ class SubscriptionServiceImplTest {
             if (found == null) throw new RuntimeException("Test Plan not found for ID: " + id);
             return found;
         });
+        lenient().when(bCryptPasswordEncoder.encode(any())).thenAnswer(invocation -> invocation.getArgument(0));
     }
 
     @Test
     @DisplayName("구독 생성: 12개월 프리미엄 플랜(ID 9번)으로 구독이 생성되는지 확인")
     void createSubscription_Success() {
         Long targetPlanId = 9L;
-        SubscriptionRequestDto request = new SubscriptionRequestDto("userA", targetPlanId);
+        SubscriptionRequestDto request = new SubscriptionRequestDto("userA", "asdf123", targetPlanId);
         MemberResponseDto memberDto = new MemberResponseDto(1L, "userA");
 
         given(memberService.findMember("userA")).willReturn(memberDto);

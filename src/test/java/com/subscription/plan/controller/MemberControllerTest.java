@@ -34,7 +34,7 @@ class MemberControllerTest {
     @Test
     @DisplayName("회원 가입 요청 시 성공하면 200 OK와 회원 정보를 반환한다.")
     void signUpTest() throws Exception {
-        MemberSignUpRequestDto requestDto = new MemberSignUpRequestDto("tester");
+        MemberSignUpRequestDto requestDto = new MemberSignUpRequestDto("tester", "asdf123");
         MemberResponseDto responseDto = new MemberResponseDto(1L, "tester");
 
         given(memberService.saveMember(any(MemberSignUpRequestDto.class)))
