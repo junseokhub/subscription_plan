@@ -42,19 +42,24 @@ public class SpringAiService {
                 )
         );
         System.out.println(Objects.requireNonNull(response.getResult()).getOutput().getText());
-        Usage usage = response.getMetadata().getUsage();
-        System.out.println(usage);
     }
 
     public void test1(String embeddingData) {
         EmbeddingResponse response = embeddingModel.call(
                 new EmbeddingRequest(List.of(embeddingData),
                         OpenAiEmbeddingOptions.builder()
-                                .model("text-embedding-ada-002")
+                                .model("text-embedding-3-large")
+                                .dimensions(3072)
                                 .build()
                 )
         );
         System.out.println(Arrays.toString(response.getResult().getOutput()));
-        System.out.println(response.getMetadata().getUsage());
+        Usage usage = response.getMetadata().getUsage();
+
+        if (usage.getNativeUsage() instanceof org.springframework.ai.openai.api.OpenAiApi.Usage nativeUsage) {
+            System.out.println("promptToken: " + nativeUsage.promptTokens());
+            System.out.println("completionToken: " + nativeUsage.completionTokens());
+            System.out.println("totalToken: " + nativeUsage.totalTokens());
+        }
     }
 }
