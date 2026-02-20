@@ -17,4 +17,9 @@ class SpringAiServiceTest {
     void test1() {
         springAiService.test1("Hello");
     }
+
+    @Test
+    void test2() {
+        springAiService.testStream();
+    }
 }
