@@ -68,8 +68,8 @@ public class SpringAiService {
                     return answer != null ? answer : "";
                 })
 //                .map(response -> Optional.ofNullable(response.getResult()).map(result -> result.getOutput().getText()).orElse(""))
-                .doOnNext(result -> System.out.println("비동기 응답 완료: " + result))
-                .onErrorResume(e -> Mono.just("에러 발생했어: " + e.getMessage()));
+                .doOnNext(result -> System.out.println("result: " + result))
+                .onErrorResume(e -> Mono.just("Error: " + e.getMessage()));
     }
 
     public void testStream() {
