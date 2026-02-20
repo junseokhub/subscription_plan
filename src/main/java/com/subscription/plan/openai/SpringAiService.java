@@ -81,6 +81,7 @@ public class SpringAiService {
                                 .build()
                 )
         );
+
         Flux<String> answer = response
 //                .map(chatResponse -> Optional.ofNullable(chatResponse.getResult())
 //                        .map(result -> result.getOutput().getText()).orElse(""))
