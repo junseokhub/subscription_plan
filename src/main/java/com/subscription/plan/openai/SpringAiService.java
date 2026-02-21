@@ -1,5 +1,6 @@
 package com.subscription.plan.openai;
 
+import com.subscription.plan.common.ExeTimer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.SystemMessage;
@@ -107,6 +108,7 @@ public class SpringAiService {
         System.out.println("Full Answer: " + fullText);
     }
 
+    @ExeTimer
     public void test1(String embeddingData) {
         EmbeddingResponse response = embeddingModel.call(
                 new EmbeddingRequest(List.of(embeddingData),

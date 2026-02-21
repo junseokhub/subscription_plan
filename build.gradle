@@ -35,7 +35,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-
 	implementation 'org.springframework.ai:spring-ai-starter-model-openai'
 
 	runtimeOnly 'com.h2database:h2'
