@@ -21,4 +21,13 @@ class AsyncTestServiceTest {
         asyncTestService.getAsyncExample().join();
     }
 
+    @Test
+    void test3() {
+        asyncTestService.test();
+    }
+
+    @Test
+    void test4() {
+        asyncTestService.test1();
+    }
 }
