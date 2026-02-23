@@ -94,7 +94,7 @@ public class SpringAiService {
 
                 .map(chatResponse -> {
                     var result = chatResponse.getResult();
-                    if (result == null || result.getOutput() == null) return "";
+                    if (result == null) return "";
                     String text = result.getOutput().getText();
                     return text != null ? text : "";
                 })
